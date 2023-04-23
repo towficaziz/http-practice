@@ -64,7 +64,8 @@ export class PostService{
     return this.http.delete(
       'https://http-request-fe9c9-default-rtdb.firebaseio.com/posts.json',
       {
-        observe: 'events'
+        observe: 'events',
+        responseType: 'text'
       }
       ).pipe(tap(event =>{
         console.log(event);
