@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { Post } from './post.model';
 import { map, catchError } from 'rxjs/operators';
@@ -22,14 +22,19 @@ export class PostService{
     postData
     ).subscribe(responseData =>{
       console.log(responseData);
-    }, error => {
+    },
+    error => {
       this.error.next(error.message);
     });
   }
 
   fetchPosts(){
     return this.http
-    .get<{[key: string]: Post }>('https://http-request-fe9c9-default-rtdb.firebaseio.com/posts.json')
+    .get<{[key: string]: Post }>('https://http-request-fe9c9-default-rtdb.firebaseio.com/posts.json',
+    {
+      headers: new HttpHeaders({ 'Custom-Header' : 'Hello' })
+    }
+    )
     .pipe(map(responseData => {
       const postsArray: Post[] = [];
       for (const key in responseData) {
